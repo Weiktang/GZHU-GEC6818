@@ -40,5 +40,6 @@ void show_point(int x, int y,int *last_x,int *last_y);
 void show(long int color);
 void show_Flag(int country);
 void bmp_process(int fd_bmp);
+void bmp_process2(int LED_n, int statue); // LED ??
 
 #endif

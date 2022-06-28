@@ -15,7 +15,10 @@
         "music.h": "c",
         "stdbool.h": "c",
         "string.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "system_error": "c",
+        "xtr1common": "c",
+        "signal.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "makefile.launchConfigurations": [

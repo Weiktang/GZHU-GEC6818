@@ -1,18 +1,17 @@
 #include "header/process.h"
 #include "header/LCD.h"
 #include "header/touch.h"
-#include "header/music.h"
+#include "header/led.h"
+#include "header/beep.h"
 
 
 
 void process(int control_bmp)
 {
-    long level;// 音量
     int fd_bmp;
     int x, y;
-    long i = voice(AUDIO_VOLUME_GET, &level);//获取音量
     int STOP = 0;//是否暂停
-    printf("获取音乐, 当前音量是 %i\n",level);
+    printf("获取音乐\n");
     struct  music* music_header;
     music_header =  print_dir(music_dir,0); // 获取列表头
     struct music* current = music_header;
@@ -42,7 +41,7 @@ void process(int control_bmp)
         }
         else if((x >= 80) && (x <= 295) && (y >= 360) && ( y<= 390))// 功能5
         {
-            process5(fd_bmp, &STOP,&level, music_header, &current);
+            process5(fd_bmp, &STOP, music_header, &current);
             close(fd_bmp);
         }
         else if((x >= 495) && (x <= 695) && (y >= 350) && ( y<= 400))// 功能6
@@ -59,15 +58,73 @@ void process(int control_bmp)
 }
 
 void process1(int fd_bmp)
-{   
-    printf("LED Control\n");
+{ 
+    int x, y;
+    int fd_led = open("/Project/pic/led_system.bmp", O_RDONLY);
+    bmp_process(fd_led);
+    //  读取LED灯状态
+    unsigned char led_buf[4];
+    led_read(led_buf);
+    usleep(100);
+    for(int i = 0;i < 4;i++)
+    {
+        if(led_buf[i] == LED_OFF || led_buf[i] == LED_ON)
+        {
+            bmp_process2(i + 7, led_buf[i]);// 修改部分图片
+        }
+        else
+        {
+            printf("Error, can't get the statue!\n");
+        }
+    }
+    while(1)
+    {
+        touch_print_px(&x, &y);
+        //  控制LED灯状态
+        if((x >= 214) && (x <=290) && (y >= 164) && ( y <= 279))// LED1
+        {
+            led_buf[0] = !led_buf[0];
+            led_ctl(LED1, led_buf[0]);
+            bmp_process2(LED1, led_buf[0]);//修改部分图片
+        }
+        else if((x >= 500) && (x <=570) && (y >= 175) && ( y <= 265))// LED2
+        {
+            led_buf[1] = !led_buf[1];
+            led_ctl(LED2, led_buf[1]);
+            bmp_process2(LED2, led_buf[1]);//修改部分图片
+        }
+        else if((x >= 214) && (x <=290) && (y >= 360) && ( y <= 415))// LED3
+        {
+            led_buf[2] = !led_buf[2];
+            led_ctl(LED3, led_buf[2]);
+            bmp_process2(LED3, led_buf[2]);//修改部分图片
+        }
+        else if((x >= 500) && (x <=570) && (y >= 360) && ( y <= 415))// LED4
+        {
+            led_buf[3] = !led_buf[3];
+            led_ctl(LED4, led_buf[3]);
+            bmp_process2(LED4, led_buf[3]);//修改部分图片
+        }
+        else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 退出LED界面
+        {
+            break;
+        }
+        else
+        {
+            continue;
+        }
+    }
 }
 
 void process2(int fd_bmp)
 {
     int x, y;
-    fd_bmp = open("/Project/pic/beap.bmp",O_RDONLY);
+    fd_bmp = open("/Project/pic/beap.bmp", O_RDONLY);
     bmp_process(fd_bmp);
+    //  读取蜂鸣器状态
+    unsigned char beep_buf;
+    beep_read(&beep_buf);
+    usleep(100);
     while(1)
     {
         touch_print_px(&x, &y);
@@ -77,11 +134,15 @@ void process2(int fd_bmp)
         }
         else if((x >= 180) && (x <= 295) && (y >= 265) && ( y<= 360))
         {
-            printf("loud\n");
+            beep_buf = !beep_buf;
+            beep_ctl(beep_buf);
+            // printf("loud\n");
         }
         else if((x >= 555) && (x <= 630) && (y >= 265) && ( y<= 360))
         {
-            printf("low\n");
+            beep_buf = !beep_buf;
+            beep_ctl(beep_buf);
+            // printf("low\n");
         }
         else
         {
@@ -142,13 +203,11 @@ void process4(int fd_bmp)
     }
 }
 
-void process5(int fd_bmp,int* STOP ,long* volume,struct music* header, struct music** current)
+void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current)
 {
     int x, y;
     fd_bmp = open("/Project/pic/music.bmp", O_RDONLY);
     bmp_process(fd_bmp);
-    long i;
-    
     
     while(1)
     {
@@ -185,46 +244,11 @@ void process5(int fd_bmp,int* STOP ,long* volume,struct music* header, struct mu
         }
         else if((x >= 700) && (x <= 790) && (y >= 380) && ( y<= 480))
         {   
-            i = voice(AUDIO_VOLUME_GET, volume);
-            if(i != -1)
-            {
-                *volume += 10;
-                i = voice(AUDIO_VOLUME_SET, volume);
-                if(i == -2)
-                {
-                    voice(AUDIO_VOLUME_GET, volume);
-                    *volume -= 10;
-                    voice(AUDIO_VOLUME_SET, volume);
-                }
-                voice(AUDIO_VOLUME_GET, volume);
-                printf("maxer: Master volume is %i, return:%i\n", *volume,i);
-            }
-            else
-            {
-                printf("can't open dsp\n");
-            }
-            
+            voice(10,1);
         }
         else if((x > 0) && (x <= 100) && (y >= 380) && ( y<= 480))
         {
-            i = voice(AUDIO_VOLUME_GET, volume);
-            if(i != -1)
-            {
-                *volume -= 10;
-                i = voice(AUDIO_VOLUME_SET, volume);
-                if(i == -2)
-                {
-                    voice(AUDIO_VOLUME_GET, volume);
-                    *volume += 10;
-                    voice(AUDIO_VOLUME_SET, volume);
-                }
-                voice(AUDIO_VOLUME_GET, volume);
-                printf("mixer: Master volume is %i, return:%i\n", *volume,i);
-            }
-            else
-            {
-                printf("can't open dsp\n");
-            }
+            voice(10,0);
         }
         else
         {

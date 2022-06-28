@@ -134,25 +134,21 @@ void music(int statue, struct music* header, struct music** current,int* STOP)
     }
 }
 
-int voice(audio_volume_action action, long* outvol)
+void voice(unsigned int dat, int mask)
 {
-    int ret = 0;
-    int fd, devs;
+    unsigned int volume = 0;
 
-    if ((fd = open("/dev/dsp", O_WRONLY)) > 0)
+    int fd = open("/dev/mixer",O_RDWR);
+    if( fd == -1 ) 
     {
-        if(action == AUDIO_VOLUME_SET) {
-            if(*outvol < 0 || *outvol > 100)
-                return -2;
-            *outvol = (*outvol << 8) | *outvol;
-            ioctl(fd, SOUND_MIXER_WRITE_VOLUME, outvol);
-        }
-        else if(action == AUDIO_VOLUME_GET) {
-            ioctl(fd, SOUND_MIXER_READ_VOLUME, outvol);
-            *outvol = *outvol & 0xff;
-        }
-        close(fd);
-        return 0;
+		perror("Can't open device dsp!\n");
     }
-    return -1;
+    ioctl(fd, SOUND_MIXER_READ_VOLUME, &volume);
+    if( mask == 1 )		//¼ÓÒôÁ¿
+		volume += ((dat<<8) + dat);
+	if( mask == 0 )		//¼õÒôÁ¿
+		volume -= ((dat<<8) + dat);
+    ioctl(fd, SOUND_MIXER_WRITE_VOLUME, &volume);
+    printf("The volume is %i\n", (volume& 0xff));
+    close(fd);
 }

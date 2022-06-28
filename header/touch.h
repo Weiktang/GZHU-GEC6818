@@ -10,7 +10,7 @@
 #include <stdbool.h> // bool类型
 #include <linux/input.h>
 
-void touch_print_px(int* ABS_x, int* ABS_y);
+void touch_print_px(int* ABS_x, int* ABS_y);// 获取坐标
 void *touch_print_px2(void* flag);// 线程函数
 
 #endif

@@ -34,7 +34,7 @@ void touch_print_px(int* x, int* y)
     close(fd_touch);
 }
 
-// 线程函数
+// 多线程版本
 void *touch_print_px2(void* flag)
 {
     int fd_touch;

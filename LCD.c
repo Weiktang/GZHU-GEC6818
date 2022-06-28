@@ -1,4 +1,5 @@
 #include "header/LCD.h"
+#include "led.h"
 
 void show(long color)
 {
@@ -124,6 +125,81 @@ void bmp_process(int fd_bmp) // 传入bmp文件描述符，可读
     // 关闭显存映射
     munmap(fb_base, Buffer_Size*4);
     close(fd_lcd);
+}
+
+void bmp_process2(int LED_n, int statue)//	LED专用
+{
+    int fd_lcd;
+	int fd_bmp;
+	int size = 84*108;
+	// printf("size is : %d\n",size);
+    fd_lcd = open("/dev/fb0", O_RDWR); 
+	if(fd_lcd == -1)
+	{
+		perror("open lcd");
+	}
+
+    int* fb_base = NULL;
+	fb_base = (int*)mmap(NULL, Buffer_Size*4, PROT_READ | PROT_WRITE, MAP_SHARED, fd_lcd, 0);
+
+
+	//图片缓存地址
+	char data_buff[size*3]; // 
+    memset(data_buff,0,sizeof(data_buff));
+	if(statue == LED_ON)
+	{
+		fd_bmp = open("/Project/pic/led_on.bmp", O_RDONLY);
+	}
+	else if(statue == LED_OFF)
+	{
+		fd_bmp = open("/Project/pic/led_off.bmp", O_RDONLY);
+	}
+	else
+	{
+		printf("error LED statue!\n");
+	}
+    lseek(fd_bmp, 54, SEEK_SET);
+	read(fd_bmp, data_buff, sizeof(data_buff));
+
+	int base_address;
+	if(LED_n == LED1)
+	{
+		base_address = 800*162 + 222; // 1
+	}
+	else if(LED_n == LED2)
+	{
+		base_address = 800*162 + 222+282; // 2
+	}
+	else if(LED_n == LED3)
+	{
+		base_address = 800*(162+157) + 222; // 3
+	}
+	else if(LED_n == LED4)
+	{
+		base_address = 800*(162+157) + 222+287; // 4
+	}
+	else
+	{
+		printf("error LED num!\n");
+		goto ERROR;
+	}
+
+	for(int i =0;i<108;i++) 
+    {
+		for(int j=0;j<84;j++)
+		{
+			*(fb_base+base_address+(107-i)*800+j) = (0x00 << 24)+(data_buff[3*(84*i+j)+2]<<16) +\
+                ( data_buff[3*(84*i+j)+1]<<8) + (data_buff[3*(84*i+j)]<<0);
+		}
+    }
+
+    // printf("i close\n");
+	// // 关闭显存映射，关闭文件
+	munmap(fb_base,Buffer_Size*4);
+	close(fd_lcd);
+ERROR:
+	munmap(fb_base,Buffer_Size*4);
+	close(fd_lcd);
 }
 
 void show_Flag(int country)

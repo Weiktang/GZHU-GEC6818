@@ -20,16 +20,12 @@ struct music{
     struct music* next;
     struct music* last;
 };
-typedef enum {
-    AUDIO_VOLUME_SET,
-    AUDIO_VOLUME_GET,
-} audio_volume_action;
 
 
 struct music* print_dir(char *path, int depth);// 获取音乐列表
 void show_music(struct music* header);// 显示音乐列表
 void music(int statue, struct music* header, struct music** current,int* STOP);// madplay控制
-int voice(audio_volume_action action, long* outvol);// 音量控制
+void voice(unsigned int dat, int mask);// 音量控制
 
 
 #endif
