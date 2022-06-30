@@ -1,2 +1,3 @@
 S5P6818
-mixer can't use
+Project1 嵌入式Linux
+Project2 裸机编程 汇编编程
