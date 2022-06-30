@@ -12,13 +12,6 @@ void show(char* led_buf)
 
 void main()
 {
-    // char led[4] = {'5','5','5','5'};
-    // show(led);
-    // printf("%c\n",*(led));
-    // printf("%c\n",*(led+1));
-    // printf("%c\n",*(led+2));
-    // printf("%c\n",*(led+3));
-    unsigned char a = 10;
-    int b = a;
-    printf("%d", b);
+    unsigned char a = 0;
+    printf("%d\n", ~a);
 }

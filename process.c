@@ -259,6 +259,7 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
 
 void process6(int fd_bmp)
 {
+    // wait to choose the function
     printf("control house\n");
 }
 
