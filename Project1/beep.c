@@ -2,7 +2,7 @@
 
 void beep_ctl(unsigned char statue)
 {
-    int fd_beep = open("/dev/beep_drv2",O_RDWR);
+    int fd_beep = open("/dev/beep_drv",O_RDWR);
     if(fd_beep == -1)
     {
         perror("beep open");
@@ -17,7 +17,7 @@ void beep_ctl(unsigned char statue)
 
 void beep_read(unsigned char* beep_statue)
 {
-    int fd_beep = open("/dev/beep_drv2",O_RDWR);
+    int fd_beep = open("/dev/beep_drv",O_RDWR);
     if(fd_beep == -1)
     {
         perror("beep open");

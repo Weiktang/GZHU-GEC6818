@@ -267,20 +267,21 @@ static int __init gec6818_led_init(void)
     return 0;
 	
 gpioe_remap_err:
-	iounmap(GPIOC_BASE_VA);	
+	iounmap(GPIOE_BASE_VA);	
 gpioc_remap_err:
-	release_mem_region(0xC001E000, 0x1000);	
+	iounmap(GPIOC_BASE_VA);	
 gpioe_res_err:
-	release_mem_region(0xC001C000, 0x1000);	
+	release_mem_region(0xC001E000, 0x1000);	
 gpioc_res_err:
-	device_destroy(gec6818_led_class, led_dev_num);
+	release_mem_region(0xC001C000, 0x1000);	
 device_err:
-	class_destroy(gec6818_led_class);
+	device_destroy(gec6818_led_class, led_dev_num);
 class_err:
-	cdev_del(&gec6818_led_dev);	
+	class_destroy(gec6818_led_class);
 cdev_add_err:
-	unregister_chrdev_region(led_dev_num, 1);
+	cdev_del(&gec6818_led_dev);	
 led_num_err:
+	unregister_chrdev_region(led_dev_num, 1);
 	return ret;
 
 }
@@ -296,8 +297,6 @@ static void __exit gec6818_led_exit(void)
 	release_mem_region(0xC001C000, 0x1000);	
 	cdev_del(&gec6818_led_dev);
 	unregister_chrdev_region(led_dev_num, 1);
-	printk(KERN_INFO "gec6818 led driver exit...\n");
-	
 	printk(KERN_INFO "gec6818 led driver exit...\n");
 }
 
