@@ -1,9 +1,8 @@
-cmd_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o := /home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-gcc -Wp,-MD,/mnt/e/Temporary_works/Project/driver/LED/.led_drv.mod.o.d  -nostdinc -isystem /home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/../lib/gcc/arm-eabi/4.8/include -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/include -Iarch/arm/include/generated -Iinclude  -include /home/weiktang/kernel/6818GEC/kernel/include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-s5p6818/include -Iarch/arm/plat-s5p6818/include -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/common -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/GEC6818/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -O2 -marm -fno-dwarf2-cfi-asm -mabi=aapcs-linux -mno-thumb-interwork -funwind-tables -D__LINUX_ARM_ARCH__=7 -march=armv8-a -msoft-float -Uarm -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/base -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/module -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/module -D__LINUX__ -D__PRINTK__ -DNX_RELEASE -mfpu=vfp -mfloat-abi=softfp -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/common -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/GEC6818/include -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fomit-frame-pointer -g -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -DCC_HAVE_ASM_GOTO  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(led_drv.mod)"  -D"KBUILD_MODNAME=KBUILD_STR(led_drv)" -DMODULE  -c -o /mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o /mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.c
+cmd_/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o := /home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-gcc -Wp,-MD,/mnt/e/Temporary_works/Project/Project1/driver/LED/.led_drv3.o.d  -nostdinc -isystem /home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/../lib/gcc/arm-eabi/4.8/include -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/include -Iarch/arm/include/generated -Iinclude  -include /home/weiktang/kernel/6818GEC/kernel/include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-s5p6818/include -Iarch/arm/plat-s5p6818/include -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/common -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/GEC6818/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -fno-delete-null-pointer-checks -O2 -marm -fno-dwarf2-cfi-asm -mabi=aapcs-linux -mno-thumb-interwork -funwind-tables -D__LINUX_ARM_ARCH__=7 -march=armv8-a -msoft-float -Uarm -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/base -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/module -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/mach-s5p6818/prototype/module -D__LINUX__ -D__PRINTK__ -DNX_RELEASE -mfpu=vfp -mfloat-abi=softfp -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/common -I/home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/GEC6818/include -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fomit-frame-pointer -g -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(led_drv3)"  -D"KBUILD_MODNAME=KBUILD_STR(led_drv3)" -c -o /mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o /mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.c
 
-source_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o := /mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.c
+source_/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o := /mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.c
 
-deps_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o := \
-    $(wildcard include/config/module/unload.h) \
+deps_/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o := \
   include/linux/module.h \
     $(wildcard include/config/sysfs.h) \
     $(wildcard include/config/modules.h) \
@@ -15,6 +14,7 @@ deps_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o := \
     $(wildcard include/config/tracing.h) \
     $(wildcard include/config/event/tracing.h) \
     $(wildcard include/config/ftrace/mcount/record.h) \
+    $(wildcard include/config/module/unload.h) \
     $(wildcard include/config/constructors.h) \
     $(wildcard include/config/debug/set/module/ronx.h) \
   include/linux/list.h \
@@ -366,9 +366,103 @@ deps_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o := \
     $(wildcard include/config/modversions.h) \
   /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/module.h \
     $(wildcard include/config/arm/unwind.h) \
-  include/linux/vermagic.h \
-  include/generated/utsrelease.h \
+  include/linux/cdev.h \
+  include/linux/kdev_t.h \
+  include/linux/fs.h \
+    $(wildcard include/config/fs/posix/acl.h) \
+    $(wildcard include/config/security.h) \
+    $(wildcard include/config/quota.h) \
+    $(wildcard include/config/fsnotify.h) \
+    $(wildcard include/config/ima.h) \
+    $(wildcard include/config/epoll.h) \
+    $(wildcard include/config/debug/writecount.h) \
+    $(wildcard include/config/file/locking.h) \
+    $(wildcard include/config/auditsyscall.h) \
+    $(wildcard include/config/block.h) \
+    $(wildcard include/config/fs/xip.h) \
+    $(wildcard include/config/migration.h) \
+  include/linux/limits.h \
+  include/linux/ioctl.h \
+  arch/arm/include/generated/asm/ioctl.h \
+  include/asm-generic/ioctl.h \
+  include/linux/blk_types.h \
+    $(wildcard include/config/blk/dev/integrity.h) \
+  include/linux/dcache.h \
+  include/linux/rculist.h \
+  include/linux/rculist_bl.h \
+  include/linux/list_bl.h \
+  include/linux/bit_spinlock.h \
+  include/linux/path.h \
+  include/linux/radix-tree.h \
+  include/linux/prio_tree.h \
+  include/linux/pid.h \
+  include/linux/capability.h \
+  include/linux/semaphore.h \
+  include/linux/fiemap.h \
+  include/linux/shrinker.h \
+  include/linux/migrate_mode.h \
+  include/linux/quota.h \
+    $(wildcard include/config/quota/netlink/interface.h) \
+  include/linux/percpu_counter.h \
+  include/linux/dqblk_xfs.h \
+  include/linux/dqblk_v1.h \
+  include/linux/dqblk_v2.h \
+  include/linux/dqblk_qtree.h \
+  include/linux/nfs_fs_i.h \
+  include/linux/fcntl.h \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/fcntl.h \
+  include/asm-generic/fcntl.h \
+  include/linux/err.h \
+  include/linux/uaccess.h \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/uaccess.h \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/unified.h \
+    $(wildcard include/config/arm/asm/unified.h) \
+  include/linux/io.h \
+    $(wildcard include/config/has/ioport.h) \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/io.h \
+    $(wildcard include/config/need/mach/io/h.h) \
+    $(wildcard include/config/pcmcia/soc/common.h) \
+    $(wildcard include/config/pci.h) \
+    $(wildcard include/config/isa.h) \
+    $(wildcard include/config/pccard.h) \
+  include/asm-generic/pci_iomap.h \
+    $(wildcard include/config/no/generic/pci/ioport/map.h) \
+    $(wildcard include/config/generic/pci/iomap.h) \
+  arch/arm/mach-s5p6818/include/mach/io.h \
+  include/linux/gpio.h \
+    $(wildcard include/config/generic/gpio.h) \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/gpio.h \
+    $(wildcard include/config/arch/nr/gpio.h) \
+  arch/arm/mach-s5p6818/include/mach/gpio.h \
+  arch/arm/mach-s5p6818/include/mach/s5p6818_irq.h \
+    $(wildcard include/config/regulator/nxe2000.h) \
+  include/asm-generic/gpio.h \
+    $(wildcard include/config/gpiolib.h) \
+    $(wildcard include/config/of/gpio.h) \
+    $(wildcard include/config/of.h) \
+    $(wildcard include/config/gpio/sysfs.h) \
+  include/linux/of.h \
+    $(wildcard include/config/sparc.h) \
+    $(wildcard include/config/of/dynamic.h) \
+  include/linux/mod_devicetable.h \
+  include/linux/ioport.h \
+  include/linux/device.h \
+    $(wildcard include/config/debug/devres.h) \
+    $(wildcard include/config/devtmpfs.h) \
+    $(wildcard include/config/sysfs/deprecated.h) \
+  include/linux/klist.h \
+  include/linux/pm.h \
+    $(wildcard include/config/pm.h) \
+    $(wildcard include/config/pm/runtime.h) \
+    $(wildcard include/config/pm/clk.h) \
+    $(wildcard include/config/pm/generic/domains.h) \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/include/asm/device.h \
+    $(wildcard include/config/dmabounce.h) \
+    $(wildcard include/config/iommu/api.h) \
+    $(wildcard include/config/arch/omap.h) \
+  include/linux/pm_wakeup.h \
+  /home/weiktang/kernel/6818GEC/kernel/arch/arm/plat-s5p6818/common/cfg_type.h \
 
-/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o: $(deps_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o)
+/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o: $(deps_/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o)
 
-$(deps_/mnt/e/Temporary_works/Project/driver/LED/led_drv.mod.o):
+$(deps_/mnt/e/Temporary_works/Project/Project1/driver/LED/led_drv3.o):

@@ -1,7 +1,7 @@
 INSTALLDIR = /home/weiktang/driver/LED
 
 ifneq ($(KERNELRELEASE),)
-obj-m:=led_drv.o
+obj-m:=led_drv3.o
 else
 KERNELDIR:=/home/weiktang/kernel/6818GEC/kernel
 CROSS_COMPILE:=/home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
@@ -18,6 +18,6 @@ cleanall:
 	rm -rf *.o *.order .*.cmd *.mod.c *.symvers .tmp_versions *.ko
 endif
 
-install: led_drv.ko
+install: led_drv3.ko
 	mkdir -p $(INSTALLDIR)
-	cp --target-dir=$(INSTALLDIR) led_drv.ko
+	cp --target-dir=$(INSTALLDIR) led_drv3.ko

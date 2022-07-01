@@ -19,6 +19,8 @@ void process(int control_bmp)
     show_music(music_header);
     while(1)
     {   
+        control_bmp = open("/Project/pic/control.bmp", O_RDONLY);
+        bmp_process(control_bmp);
         x = 0;
         y = 0;
         touch_print_px(&x, &y);
@@ -47,11 +49,6 @@ void process(int control_bmp)
         else if((x >= 495) && (x <= 695) && (y >= 350) && ( y<= 400))// 功能6
         {
             process6(fd_bmp);
-        }
-        else
-        {
-            control_bmp = open("/Project/pic/control.bmp", O_RDONLY);
-            bmp_process(control_bmp);
         }
     }
    
@@ -85,24 +82,28 @@ void process1(int fd_bmp)
         {
             led_buf[0] = !led_buf[0];
             led_ctl(LED1, led_buf[0]);
+            led_read(led_buf);
             bmp_process2(LED1, led_buf[0]);//修改部分图片
         }
         else if((x >= 500) && (x <=570) && (y >= 175) && ( y <= 265))// LED2
         {
             led_buf[1] = !led_buf[1];
             led_ctl(LED2, led_buf[1]);
+            led_read(led_buf);
             bmp_process2(LED2, led_buf[1]);//修改部分图片
         }
         else if((x >= 214) && (x <=290) && (y >= 360) && ( y <= 415))// LED3
         {
             led_buf[2] = !led_buf[2];
             led_ctl(LED3, led_buf[2]);
+            led_read(led_buf);
             bmp_process2(LED3, led_buf[2]);//修改部分图片
         }
         else if((x >= 500) && (x <=570) && (y >= 360) && ( y <= 415))// LED4
         {
             led_buf[3] = !led_buf[3];
             led_ctl(LED4, led_buf[3]);
+            led_read(led_buf);
             bmp_process2(LED4, led_buf[3]);//修改部分图片
         }
         else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 退出LED界面
@@ -134,14 +135,20 @@ void process2(int fd_bmp)
         }
         else if((x >= 180) && (x <= 295) && (y >= 265) && ( y<= 360))
         {
-            beep_buf = !beep_buf;
-            beep_ctl(beep_buf);
+            beep_buf = 1;
+            if(beep_buf == 1)
+            {
+                beep_ctl(beep_buf);
+            }
             // printf("loud\n");
         }
         else if((x >= 555) && (x <= 630) && (y >= 265) && ( y<= 360))
         {
-            beep_buf = !beep_buf;
-            beep_ctl(beep_buf);
+            beep_buf = 0;
+            if(beep_buf == 0)
+            {
+                beep_ctl(beep_buf);
+            }
             // printf("low\n");
         }
         else
