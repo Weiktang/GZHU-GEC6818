@@ -18,7 +18,8 @@
         "stat.h": "c",
         "system_error": "c",
         "xtr1common": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "button.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "makefile.launchConfigurations": [

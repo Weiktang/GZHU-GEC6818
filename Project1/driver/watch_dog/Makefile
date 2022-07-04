@@ -1,9 +1,7 @@
-# butto_driver  makefile
-
-INSTALLDIR = /home/weiktang/driver/button
+INSTALLDIR = /home/weiktang/driver/watch_dog
 
 ifneq ($(KERNELRELEASE),)
-obj-m:=button_drv.o
+obj-m:=watch_dog_drv.o
 else
 KERNELDIR:=/home/weiktang/kernel/6818GEC/kernel
 CROSS_COMPILE:=/home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
@@ -20,6 +18,6 @@ cleanall:
 	rm -rf *.o *.order .*.cmd *.mod.c *.symvers .tmp_versions *.ko
 endif
 
-install: button_drv.ko
+install: watch_dog_drv.ko
 	mkdir -p $(INSTALLDIR)
-	cp --target-dir=$(INSTALLDIR) button_drv.ko
+	cp --target-dir=$(INSTALLDIR) watch_dog_drv.ko

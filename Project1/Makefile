@@ -1,4 +1,4 @@
-main:main.o LCD.o touch.o process.o music.o led.o beep.o
+main:main.o LCD.o touch.o process.o music.o led.o beep.o button.o
 	arm-linux-gcc $^ -o ./Make/main -lm -lpthread
 	rm -rf *.o
 

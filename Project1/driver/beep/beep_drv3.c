@@ -28,7 +28,7 @@ struct gpio_info gec6818_beep = {
 };
 
 
-static unsigned int beep_major = 100;//主设备号(=0,动态分配;  !=0，静态注册)
+static unsigned int beep_major = 0;//主设备号(=0,动态分配;  !=0，静态注册)
 static unsigned int beep_minor = 0;//次设备号
 static dev_t beep_dev_num;
 
@@ -61,7 +61,7 @@ static int gec6818_beep_close(struct inode *inode, struct file *filp)
 
 static ssize_t gec6818_beep_write(struct file *folp, const char __user *buf, size_t len, loff_t *off)
 {
-	unsigned char beep_flag; // 1--beep_NUM; 0--beep_STATUS
+	unsigned char beep_flag;
 	if(len != 1)
 		return -EINVAL;  //返回给应用程序write()的一个错误码
 	if(copy_from_user(&beep_flag, buf, len))

@@ -3,6 +3,7 @@
 #include "header/touch.h"
 #include "header/led.h"
 #include "header/beep.h"
+#include "header/button.h"
 
 
 
@@ -13,7 +14,7 @@ void process(int control_bmp)
     int STOP = 0;//是否暂停
     printf("获取音乐\n");
     struct  music* music_header;
-    music_header =  print_dir(music_dir,0); // 获取列表头
+    music_header =  print_dir(music_dir,0); // 获取列表�?
     struct music* current = music_header;
     //显示音乐链表
     show_music(music_header);
@@ -61,6 +62,7 @@ void process1(int fd_bmp)
     bmp_process(fd_led);
     //  读取LED灯状态
     unsigned char led_buf[4];
+    unsigned char temp[4];
     led_read(led_buf);
     usleep(100);
     for(int i = 0;i < 4;i++)
@@ -82,25 +84,62 @@ void process1(int fd_bmp)
         {
             led_buf[0] = !led_buf[0];
             led_ctl(LED1, led_buf[0]);
-            bmp_process2(LED1, led_buf[0]);//修改部分图片
+            led_read(temp);
+            if(temp[0] == led_buf[0])
+            {
+                bmp_process2(LED1, led_buf[0]);//修改部分图片
+            }
+            else
+            {
+                printf("Error, can't set the LED1 statue!\n");
+                led_buf[0] = temp[0];
+            }
+            
         }
         else if((x >= 500) && (x <=570) && (y >= 175) && ( y <= 265))// LED2
         {
             led_buf[1] = !led_buf[1];
             led_ctl(LED2, led_buf[1]);
-            bmp_process2(LED2, led_buf[1]);//修改部分图片
+            led_read(temp);
+            if(temp[1] == led_buf[1])
+            {
+                bmp_process2(LED2, led_buf[1]);//修改部分图片
+            }
+            else
+            {
+                printf("Error, can't set the LED2 statue!\n");
+                led_buf[1] = temp[1];
+            }
         }
         else if((x >= 214) && (x <=290) && (y >= 360) && ( y <= 415))// LED3
         {
             led_buf[2] = !led_buf[2];
             led_ctl(LED3, led_buf[2]);
-            bmp_process2(LED3, led_buf[2]);//修改部分图片
+            led_read(temp);
+            if(temp[2] == led_buf[2])
+            {
+                bmp_process2(LED3, led_buf[2]);//修改部分图片
+            }
+            else
+            {
+                printf("Error, can't set the LED3 statue!\n");
+                led_buf[2] = temp[2];
+            }  
         }
         else if((x >= 500) && (x <=570) && (y >= 360) && ( y <= 415))// LED4
         {
             led_buf[3] = !led_buf[3];
             led_ctl(LED4, led_buf[3]);
-            bmp_process2(LED4, led_buf[3]);//修改部分图片
+            led_read(temp);
+            if(temp[3] == led_buf[3])
+            {
+                bmp_process2(LED4, led_buf[3]);//修改部分图片
+            }
+            else
+            {
+                printf("Error, can't set the LED4 statue!\n");
+                led_buf[3] = temp[3];
+            }  
         }
         else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 退出LED界面
         {
@@ -262,7 +301,54 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
 
 void process6(int fd_bmp)
 {
-    // wait to choose the function
-    printf("control house\n");
+    //TODO
+    int x, y;
+    show(White);
+    bool flag= false;
+    pthread_t id; // 开启线程
+    int res = pthread_create(&id, NULL, touch_print_px2, (void*)(&flag));
+    // 按键检测
+    unsigned char button_buf[4];
+    unsigned char temp[4];
+    button_read(button_buf);
+    button_read(temp);
+    usleep(100);
+    while(1)
+    {
+        if(flag)
+        {
+            break;
+        }
+        button_read(button_buf);
+        usleep(100);
+        for(int i = 0;i < 4;i++)
+        {
+            if((button_buf[i] == BUTTON_ON) && (button_buf[i] != temp[i]))
+            {
+                temp[i] = button_buf[i];
+                if(i == 3)
+                {
+                    printf("K%d is pressed\n", (i + 3));
+                }
+                else
+                {
+                    printf("K%d is pressed\n", (i + 2));
+                }
+            }
+            else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))
+            {
+                temp[i] = button_buf[i];
+                if(i == 3)
+                {
+                    printf("K%d is released\n", (i + 3));
+                }
+                else
+                {
+                    printf("K%d is released\n", (i + 2));
+                }
+            }
+        }
+
+    }
 }
 

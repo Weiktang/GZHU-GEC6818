@@ -41,7 +41,6 @@ struct gpio_info gec6818_led[4] = {
 		.gpio_num = PAD_GPIO_C +7,
 		.gpio_name = "led10",
 	},
-
 };
 
 
@@ -201,13 +200,13 @@ static int __init gec6818_led_init(void)
 	
 
     // 申请寄存器的物理地址
-    gpioc_res = request_mem_region(0xC001C000, 0x1000, "gec6818_led");
+    gpioc_res = request_mem_region(0xC001C000, 0x1000, "gpioc_mem");
     if(gpioc_res == NULL)
     {
 		printk("gpioc resource error");
 		goto gpioc_res_err;
 	}
-	gpioe_res = request_mem_region(0xC001E000, 0x1000,   "gpioe_mem");
+	gpioe_res = request_mem_region(0xC001E000, 0x1000,   "gpioe_led");
 	if(gpioe_res == NULL)
     {
 		printk("gpioe resource error");
