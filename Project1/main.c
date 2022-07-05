@@ -2,9 +2,16 @@
 #include "header/touch.h"
 #include "header/process.h"
 #include "header/music.h"
+#include "header/watch_dog.h"
 
 int main()
 {
+	// 看门猪
+	signal(2, (void*)wd_siganl);// 程序手动退出则关闭看门猪
+	pthread_t id; // 开启线程
+    int res = pthread_create(&id, NULL, wd_thread, NULL);// watch_dog init(thread)
+
+	// 控制终端
     int i = 0;
 	int main_bmp, control_bmp;
 	int x, y;

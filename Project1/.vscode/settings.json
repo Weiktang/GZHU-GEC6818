@@ -1,3 +1,8 @@
 {
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "stdio.h": "c",
+        "watch_dog.h": "c",
+        "fcntl.h": "c"
+    }
 }

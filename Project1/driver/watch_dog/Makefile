@@ -1,7 +1,7 @@
 INSTALLDIR = /home/weiktang/driver/watch_dog
 
 ifneq ($(KERNELRELEASE),)
-obj-m:=watch_dog_drv.o
+obj-m:=watch_dog_drv2.o
 else
 KERNELDIR:=/home/weiktang/kernel/6818GEC/kernel
 CROSS_COMPILE:=/home/weiktang/kernel/6818GEC/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
@@ -18,6 +18,6 @@ cleanall:
 	rm -rf *.o *.order .*.cmd *.mod.c *.symvers .tmp_versions *.ko
 endif
 
-install: watch_dog_drv.ko
+install: watch_dog_drv2.ko
 	mkdir -p $(INSTALLDIR)
-	cp --target-dir=$(INSTALLDIR) watch_dog_drv.ko
+	cp --target-dir=$(INSTALLDIR) watch_dog_drv2.ko

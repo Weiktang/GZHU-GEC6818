@@ -4,7 +4,7 @@
 #include "header/led.h"
 #include "header/beep.h"
 #include "header/button.h"
-
+#include "header/watch_dog.h"
 
 
 void process(int control_bmp)
@@ -18,6 +18,10 @@ void process(int control_bmp)
     struct music* current = music_header;
     //显示音乐链表
     show_music(music_header);
+    //家庭控制
+    bool Sweeping_robot = false;
+    bool air = false;
+
     while(1)
     {   
         control_bmp = open("/Project/pic/control.bmp", O_RDONLY);
@@ -49,8 +53,13 @@ void process(int control_bmp)
         }
         else if((x >= 495) && (x <= 695) && (y >= 350) && ( y<= 400))// 功能6
         {
-            process6(fd_bmp);
+            process6(fd_bmp, &Sweeping_robot, &air);
         }
+        // else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 功能7
+        // {   
+        //     printf("start test watch_dog\n");
+        //     process7();
+        // }
     }
    
 }
@@ -299,7 +308,7 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
     }
 }
 
-void process6(int fd_bmp)
+void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
 {
     //初始化
     int x, y;
@@ -331,23 +340,59 @@ void process6(int fd_bmp)
                 temp[i] = button_buf[i];
                 if(i == 3)
                 {
-                    printf("K%d is pressed\n", (i + 3));
-                    printf("Open the door\n");
+                    if(*Sweeping_robot == false)
+                    {
+                        printf("K%d is pressed\n", (i + 3));
+                        printf("Open the Sweeping_robot\n");
+                        *Sweeping_robot = true;
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 3));
+                        printf("The Sweeping_robot has opened\n");
+                    }
                 }
                 else if(i == 0)
                 {
-                    printf("K%d is pressed\n", (i + 2));
-                    printf("Close the door\n");
+                    if(*Sweeping_robot == true)
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("Close the Sweeping_robot\n");
+                        *Sweeping_robot = false;
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("The Sweeping_robot has closed\n");
+                    }
                 }
                 else if(i == 1)
                 {
-                    printf("K%d is pressed\n", (i + 2));
-                    printf("Open the Air conditioner\n");
+                    if(*air == false)
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("Open the Air conditioner\n");
+                        *air = true;
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("The Air conditioner has opened\n");
+                    }
                 }
                 else if(i == 2)
                 {
-                    printf("K%d is pressed\n", (i + 2));
-                    printf("Close the Air conditioner\n");
+                    if(*air == true)
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("Close the Air conditioner\n");
+                        *air = false;
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("The Air conditioner has closed\n");
+                    }
                 }
             }
             else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))// 按下后释放
@@ -367,3 +412,37 @@ void process6(int fd_bmp)
     }
 }
 
+void process7()
+{
+    // 看门猪测试
+    // int count =0;
+    // wd_start();
+    // printf("start watch_dog end\n");
+    // while(1)
+    // {
+    //     count++;
+    //     sleep(1);
+    //     if(count % 3 == 0)
+    //     {
+    //         wd_alive();	
+    //         printf("alive watch_dog end\n");
+    //     }
+        
+    //     printf("reset %d\n", count);
+    //     fflush(stdout);
+    //     if(count == 30)
+    //     {
+    //         wd_stop();
+    //         printf("stop watch_dog end\n");
+    //         break;
+    //     }
+    // }
+
+    // 模拟程序卡死       
+    kill_myself();
+}
+
+void kill_myself()
+{
+    system("killall -KILL main");
+}

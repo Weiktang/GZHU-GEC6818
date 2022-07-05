@@ -17,6 +17,9 @@ void process2(int fd_bmp);// 报警控制
 void process3(int fd_bmp);// 液晶屏检测
 void process4(int fd_bmp);// 数码相册
 void process5(int fd_bmp, int* STOP,struct music* music_header, struct music** current);// 音乐播放
-void process6(int fd_bmp);// 家电控制
+void process6(int fd_bmp, bool* Sweeping_robot, bool* air);// 家电控制
+void process7(void); // 看门狗测试
+
+void kill_myself();
 
 #endif
