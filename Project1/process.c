@@ -350,18 +350,18 @@ void process6(int fd_bmp)
                     printf("Close the Air conditioner\n");
                 }
             }
-            // else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))// 按下后释放
-            // {
-            //     temp[i] = button_buf[i];
-            //     if(i == 3)
-            //     {
-            //         printf("K%d is released\n", (i + 3));
-            //     }
-            //     else
-            //     {
-            //         printf("K%d is released\n", (i + 2));
-            //     }
-            // }
+            else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))// 按下后释放
+            {
+                temp[i] = button_buf[i];
+                // if(i == 3)
+                // {
+                //     printf("K%d is released\n", (i + 3));
+                // }
+                // else
+                // {
+                //     printf("K%d is released\n", (i + 2));
+                // }
+            }
         }
 
     }
