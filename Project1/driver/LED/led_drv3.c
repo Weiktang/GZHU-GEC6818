@@ -44,7 +44,7 @@ struct gpio_info gec6818_led[4] = {
 };
 
 
-static unsigned int led_major = 100;//主设备号(=0,动态分配;  !=0，静态注册)
+static unsigned int led_major = 0;//主设备号(=0,动态分配;  !=0，静态注册)
 static unsigned int led_minor = 0;//次设备号
 static dev_t led_dev_num;
 
