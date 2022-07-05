@@ -1,32 +1,3 @@
 {
-    "makefile.extensionOutputFolder": "./.vscode",
-    "files.associations": {
-        "math.h": "c",
-        "fcntl.h": "c",
-        "lcd.h": "c",
-        "mman.h": "c",
-        "stdio.h": "c",
-        "stdlib.h": "c",
-        "unistd.h": "c",
-        "touch.h": "c",
-        "input.h": "c",
-        "type_traits": "c",
-        "process.h": "c",
-        "music.h": "c",
-        "stdbool.h": "c",
-        "string.h": "c",
-        "stat.h": "c",
-        "system_error": "c",
-        "xtr1common": "c",
-        "signal.h": "c",
-        "button.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "Disabled",
-    "makefile.launchConfigurations": [
-        {
-            "cwd": "/mnt/e/Temporary works/internship/Project/Make",
-            "binaryPath": "/mnt/e/Temporary works/internship/Project/Make/main",
-            "binaryArgs": []
-        }
-    ]
+    "C_Cpp.errorSquiggles": "Disabled"
 }

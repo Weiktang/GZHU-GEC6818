@@ -301,9 +301,12 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
 
 void process6(int fd_bmp)
 {
-    //TODO
+    //初始化
     int x, y;
+    // int fd_led = open("/Project/pic/home_system.bmp", O_RDONLY);
+    // bmp_process(fd_led);
     show(White);
+    //线程
     bool flag= false;
     pthread_t id; // 开启线程
     int res = pthread_create(&id, NULL, touch_print_px2, (void*)(&flag));
@@ -323,30 +326,42 @@ void process6(int fd_bmp)
         usleep(100);
         for(int i = 0;i < 4;i++)
         {
-            if((button_buf[i] == BUTTON_ON) && (button_buf[i] != temp[i]))
+            if((button_buf[i] == BUTTON_ON) && (button_buf[i] != temp[i])) // 按下1次
             {
                 temp[i] = button_buf[i];
                 if(i == 3)
                 {
                     printf("K%d is pressed\n", (i + 3));
+                    printf("Open the door\n");
                 }
-                else
+                else if(i == 0)
                 {
                     printf("K%d is pressed\n", (i + 2));
+                    printf("Close the door\n");
+                }
+                else if(i == 1)
+                {
+                    printf("K%d is pressed\n", (i + 2));
+                    printf("Open the Air conditioner\n");
+                }
+                else if(i == 2)
+                {
+                    printf("K%d is pressed\n", (i + 2));
+                    printf("Close the Air conditioner\n");
                 }
             }
-            else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))
-            {
-                temp[i] = button_buf[i];
-                if(i == 3)
-                {
-                    printf("K%d is released\n", (i + 3));
-                }
-                else
-                {
-                    printf("K%d is released\n", (i + 2));
-                }
-            }
+            // else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))// 按下后释放
+            // {
+            //     temp[i] = button_buf[i];
+            //     if(i == 3)
+            //     {
+            //         printf("K%d is released\n", (i + 3));
+            //     }
+            //     else
+            //     {
+            //         printf("K%d is released\n", (i + 2));
+            //     }
+            // }
         }
 
     }
