@@ -66,16 +66,15 @@ void *touch_print_px2(void* flag)
                     y = data->value;
                     y = y * 480/600;
                 }
-
                 if((x > 0) && (x <= 120) && (y > 0) && ( y<= 70))
                 {
-                    *(bool*) flag = true;
+                    *(bool*) flag = true;        
                     free(data);
                     close(fd_touch);
                     pthread_exit(0);
-                }
+                } 
             }
-        }
+        }       
     }
 }
 
@@ -110,7 +109,6 @@ void *touch_print_px3(void* flag) // 空调专属
                     y = data->value;
                     y = y * 480/600;
                 }
-
                 if((x > 0) && (x <= 120) && (y > 0) && ( y<= 70))// 退出
                 {
                     *(int*) flag = 1;
@@ -124,6 +122,5 @@ void *touch_print_px3(void* flag) // 空调专属
                 }
             }
         }
-        // printf("%d,%d\n",x,y);
     }
 }

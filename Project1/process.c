@@ -349,6 +349,7 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                 temp[3] = BUTTON_ON;  // 假装按键K6曾经按过
                 temp[0] = BUTTON_OFF; 
                 bmp_process3(*air);
+                printf("Open the Air conditionert\n");
             }
             else
             {
@@ -356,7 +357,9 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                 temp[0] = BUTTON_ON; // 假装按键K2曾经按过
                 temp[3] = BUTTON_OFF; 
                 bmp_process3(*air);
+                printf("Close the Air conditioner\n");
             }
+            flag = 0; // 清零
         }
         button_read(button_buf);
         usleep(100);
