@@ -311,7 +311,6 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
 void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
 {
     //初始化
-    int x, y;
     int fd_kt = open("/Project/pic/kongtiao.bmp", O_RDONLY);
     bmp_process(fd_kt);
     bmp_process3(*air);
@@ -326,14 +325,14 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
     unsigned char temp[4];
     button_read(button_buf);
     button_read(temp);
-    // if(*air == true)
-    // {
-    //     temp[0] = 1; // 按键K2曾经按过
-    // }
-    // else
-    // {
-    //     temp[3] = 1;  // 按键K6曾经按过
-    // }
+    if(*air == true) // 恢复上一次状态
+    {
+        temp[0] = 1; // 按键K2曾经按过
+    }
+    else
+    {
+        temp[3] = 1;  // 按键K6曾经按过
+    }
     
     usleep(100);
     while(1)
@@ -349,12 +348,14 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                 *air = false;
                 temp[3] = BUTTON_ON;  // 假装按键K6曾经按过
                 temp[0] = BUTTON_OFF; 
+                bmp_process3(*air);
             }
             else
             {
                 *air = true;
                 temp[0] = BUTTON_ON; // 假装按键K2曾经按过
                 temp[3] = BUTTON_OFF; 
+                bmp_process3(*air);
             }
         }
         button_read(button_buf);

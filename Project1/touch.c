@@ -121,7 +121,6 @@ void *touch_print_px3(void* flag) // 空调专属
                 if((x > 310) && (x <= 475) && (y > 370) && ( y<= 411))// 按下开关
                 {
                     *(int*) flag = 2;
-                    close(fd_touch);
                 }
             }
         }
