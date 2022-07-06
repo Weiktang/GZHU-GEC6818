@@ -241,7 +241,7 @@ static int __init gec6818_led_init(void)
 	GPIOCOUTENB = GPIOC_BASE_VA + 1;
 	GPIOCALTFN1 = GPIOC_BASE_VA + 9;
 	
-	*GPIOCALTFN1 |= (1<<1); //设置为IO功能
+	*GPIOCALTFN1 |= (1<<2); //设置为IO功能
 	*GPIOCOUTENB |= (1<<17); //GPIOC17为输出
 	*GPIOCOUT |= (1<<17); 
 

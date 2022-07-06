@@ -69,13 +69,13 @@ void show_Rect(int num, struct Rect rect[], long* color)
 	}
 	lcd_buf = (int*)mmap(NULL, Buffer_Size*4, PROT_READ | PROT_WRITE, MAP_SHARED, fd_lcd, 0);
 
-	for(int i = 0;i < 800;i++)
-	{
-		for(int j = 0;j < 480;j++)
-		{
-			*(lcd_buf + i * 480 + j) = White; 
-		}
-	}
+	// for(int i = 0;i < 800;i++)
+	// {
+	// 	for(int j = 0;j < 480;j++)
+	// 	{
+	// 		*(lcd_buf + i * 480 + j) = White; 
+	// 	}
+	// }
 	for(int t =0;t<num;t++)
 	{
 		int adr = rect[t].x + rect[t].y*800;
@@ -185,7 +185,7 @@ void bmp_process2(int LED_n, int statue)//	LED×¨ÓÃ
 	}
 
 	for(int i =0;i<108;i++) 
-    {
+    {c
 		for(int j=0;j<84;j++)
 		{
 			*(fb_base+base_address+(107-i)*800+j) = (0x00 << 24)+(data_buff[3*(84*i+j)+2]<<16) +\
