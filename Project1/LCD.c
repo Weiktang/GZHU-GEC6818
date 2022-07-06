@@ -1,5 +1,6 @@
 #include "header/LCD.h"
 #include "header/led.h"
+#include "header/button.h"
 
 void show(long color)
 {
@@ -185,7 +186,7 @@ void bmp_process2(int LED_n, int statue)//	LED专用
 	}
 
 	for(int i =0;i<108;i++) 
-    {c
+    {
 		for(int j=0;j<84;j++)
 		{
 			*(fb_base+base_address+(107-i)*800+j) = (0x00 << 24)+(data_buff[3*(84*i+j)+2]<<16) +\
@@ -198,6 +199,53 @@ void bmp_process2(int LED_n, int statue)//	LED专用
 	munmap(fb_base,Buffer_Size*4);
 	close(fd_lcd);
 ERROR:
+	munmap(fb_base,Buffer_Size*4);
+	close(fd_lcd);
+}
+
+void bmp_process3(bool statue)//	空调专用
+{
+    int fd_lcd;
+	int fd_bmp;
+	int size = 200*60;
+	// printf("size is : %d\n",size);
+    fd_lcd = open("/dev/fb0", O_RDWR); 
+	if(fd_lcd == -1)
+	{
+		perror("open lcd");
+	}
+
+    int* fb_base = NULL;
+	fb_base = (int*)mmap(NULL, Buffer_Size*4, PROT_READ | PROT_WRITE, MAP_SHARED, fd_lcd, 0);
+
+
+	//图片缓存地址
+	char data_buff[size*3]; // 
+    memset(data_buff,0,sizeof(data_buff));
+	if(statue == true)
+	{
+		fd_bmp = open("/Project/pic/on.bmp", O_RDONLY);
+	}
+	else if(statue == false)
+	{
+		fd_bmp = open("/Project/pic/off.bmp", O_RDONLY);
+	}
+    lseek(fd_bmp, 54, SEEK_SET);
+	read(fd_bmp, data_buff, sizeof(data_buff));
+
+	int base_address = 800*360 + 305;
+
+	for(int i =0;i<60;i++) 
+    {
+		for(int j=0;j<200;j++)
+		{
+			*(fb_base+base_address+(59-i)*800+j) = (0x00 << 24)+(data_buff[3*(200*i+j)+2]<<16) +\
+                ( data_buff[3*(200*i+j)+1]<<8) + (data_buff[3*(200*i+j)]<<0);
+		}
+    }
+
+    // printf("i close\n");
+	// // 关闭显存映射，关闭文件
 	munmap(fb_base,Buffer_Size*4);
 	close(fd_lcd);
 }

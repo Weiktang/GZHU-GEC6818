@@ -12,5 +12,6 @@
 
 void touch_print_px(int* ABS_x, int* ABS_y);// 获取坐标
 void *touch_print_px2(void* flag);// 线程函数
+void *touch_print_px3(void* flag);// 线程函数--空调
 
 #endif

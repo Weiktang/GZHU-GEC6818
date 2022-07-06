@@ -312,24 +312,50 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
 {
     //初始化
     int x, y;
-    // int fd_led = open("/Project/pic/home_system.bmp", O_RDONLY);
-    // bmp_process(fd_led);
-    show(White);
+    int fd_kt = open("/Project/pic/kongtiao.bmp", O_RDONLY);
+    bmp_process(fd_kt);
+    bmp_process3(*air);
+    // show(White);
+    
     //线程
-    bool flag= false;
+    int flag= 0;
     pthread_t id; // 开启线程
-    int res = pthread_create(&id, NULL, touch_print_px2, (void*)(&flag));
+    int res = pthread_create(&id, NULL, touch_print_px3, (void*)(&flag));
     // 按键检测
     unsigned char button_buf[4];
     unsigned char temp[4];
     button_read(button_buf);
     button_read(temp);
+    // if(*air == true)
+    // {
+    //     temp[0] = 1; // 按键K2曾经按过
+    // }
+    // else
+    // {
+    //     temp[3] = 1;  // 按键K6曾经按过
+    // }
+    
     usleep(100);
     while(1)
     {
-        if(flag)
+        if(flag == 1)
         {
             break;
+        }
+        else if(flag == 2)
+        {
+            if(*air)
+            {
+                *air = false;
+                temp[3] = BUTTON_ON;  // 假装按键K6曾经按过
+                temp[0] = BUTTON_OFF; 
+            }
+            else
+            {
+                *air = true;
+                temp[0] = BUTTON_ON; // 假装按键K2曾经按过
+                temp[3] = BUTTON_OFF; 
+            }
         }
         button_read(button_buf);
         usleep(100);
@@ -340,19 +366,49 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                 temp[i] = button_buf[i];
                 if(i == 3)
                 {
-                    if(*Sweeping_robot == false)
+                    if(*air == true)
                     {
                         printf("K%d is pressed\n", (i + 3));
+                        printf("Close the Air conditioner\n");
+                        *air = false;
+                        bmp_process3(*air);
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 3));
+                        printf("The Air conditioner has closed\n");
+                    }
+                }
+                else if(i == 0)
+                {
+                    if(*air == false)
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("Open the Air conditionert\n");
+                        *air = true;
+                        bmp_process3(*air);
+                    }
+                    else
+                    {
+                        printf("K%d is pressed\n", (i + 2));
+                        printf("The Air conditioner has opened\n");
+                    }
+                }
+                else if(i == 1)
+                {
+                    if(*Sweeping_robot == false)
+                    {
+                        printf("K%d is pressed\n", (i + 2));
                         printf("Open the Sweeping_robot\n");
                         *Sweeping_robot = true;
                     }
                     else
                     {
-                        printf("K%d is pressed\n", (i + 3));
+                        printf("K%d is pressed\n", (i + 2));
                         printf("The Sweeping_robot has opened\n");
                     }
                 }
-                else if(i == 0)
+                else if(i == 2)
                 {
                     if(*Sweeping_robot == true)
                     {
@@ -364,34 +420,6 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                     {
                         printf("K%d is pressed\n", (i + 2));
                         printf("The Sweeping_robot has closed\n");
-                    }
-                }
-                else if(i == 1)
-                {
-                    if(*air == false)
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("Open the Air conditioner\n");
-                        *air = true;
-                    }
-                    else
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("The Air conditioner has opened\n");
-                    }
-                }
-                else if(i == 2)
-                {
-                    if(*air == true)
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("Close the Air conditioner\n");
-                        *air = false;
-                    }
-                    else
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("The Air conditioner has closed\n");
                     }
                 }
             }
