@@ -263,7 +263,6 @@ void process4(struct pic* header, struct pic** current)
         sleep(1);
         if(flag)
         {
-            *current = (*current)->last;
             break;
         }
     }
