@@ -9,17 +9,27 @@
 
 void process(int control_bmp)
 {
-    int fd_bmp;
     int x, y;
+    // music
     int STOP = 0;//是否暂停
     printf("获取音乐\n");
     struct  music* music_header;
     music_header =  print_dir(music_dir,0); // 获取列表�?
-    struct music* current = music_header;
+    struct music* music_current = music_header;
     //显示音乐链表
     show_music(music_header);
+    printf("------------------------------------\n");   
+
+    // picture
+    printf("获取图片\n");
+    struct  pic* pic_header;
+    pic_header =  print_pic_dir(pic_dir,0); // 获取列表�?
+    struct pic* pic_current = pic_header;
+    //显示音乐链表
+    show_pic(pic_header);
+    printf("------------------------------------\n");  
+
     //家庭控制
-    bool Sweeping_robot = false;
     bool air = false;
 
     while(1)
@@ -31,40 +41,37 @@ void process(int control_bmp)
         touch_print_px(&x, &y);
         if((x >= 80) && (x <=240) && (y >= 130) && ( y<= 190))// 功能1
         {
-            process1(fd_bmp);
+            process1();
         }
         else if((x >= 500) && (x <= 700) && (y >= 120) && ( y<= 170))// 功能2
         {
-            process2(fd_bmp);
-            close(fd_bmp);
+            process2();
         }
         else if((x >= 70) && (x <= 344) && (y >= 245) && ( y<= 275))// 功能3
         {
-            process3(fd_bmp);
+            process3();
         }
         else if((x >= 500) && (x <= 695) && (y >= 230) && ( y<= 285))// 功能4
         {
-            process4(fd_bmp);
+            process4(pic_header, &pic_current);
         }
         else if((x >= 80) && (x <= 295) && (y >= 360) && ( y<= 390))// 功能5
         {
-            process5(fd_bmp, &STOP, music_header, &current);
-            close(fd_bmp);
+            process5(&STOP, music_header, &music_current);
         }
         else if((x >= 495) && (x <= 695) && (y >= 350) && ( y<= 400))// 功能6
         {
-            process6(fd_bmp, &Sweeping_robot, &air);
+            process6(&air);
         }
         // else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 功能7
         // {   
-        //     printf("start test watch_dog\n");
         //     process7();
         // }
     }
    
 }
 
-void process1(int fd_bmp)
+void process1()
 { 
     int x, y;
     int fd_led = open("/Project/pic/led_system.bmp", O_RDONLY);
@@ -152,6 +159,7 @@ void process1(int fd_bmp)
         }
         else if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 退出LED界面
         {
+            close(fd_led);
             break;
         }
         else
@@ -161,10 +169,10 @@ void process1(int fd_bmp)
     }
 }
 
-void process2(int fd_bmp)
+void process2()
 {
     int x, y;
-    fd_bmp = open("/Project/pic/beap.bmp", O_RDONLY);
+    int fd_bmp = open("/Project/pic/beap.bmp", O_RDONLY);
     bmp_process(fd_bmp);
     //  读取蜂鸣器状态
     unsigned char beep_buf;
@@ -175,6 +183,7 @@ void process2(int fd_bmp)
         touch_print_px(&x, &y);
         if((x > 0) && (x <= 130) && (y > 0) && ( y<= 70))// 返回
         {
+            close(fd_bmp);
             break;
         }
         else if((x >= 180) && (x <= 295) && (y >= 265) && ( y<= 360))
@@ -202,7 +211,7 @@ void process2(int fd_bmp)
     }
 }
 
-void process3(int fd_bmp)
+void process3()
 {
     int x, y;
     int i = 0;
@@ -230,7 +239,7 @@ void process3(int fd_bmp)
     // 线程销毁
 }
 
-void process4(int fd_bmp)
+void process4(struct pic* header, struct pic** current)
 {
     int x, y;
     int i = 0;
@@ -239,14 +248,19 @@ void process4(int fd_bmp)
     int res = pthread_create(&id, NULL, touch_print_px2, (void*)(&flag));
     while(1)
     {
-        show_Flag(i);
+        // 国旗
+        // show_Flag(i);
+        // sleep(1);
+        // i++;
+        // if(i == 5)
+        // {
+        //     i = 0;
+        //     show_Flag(i);      
+        // }
+
+        // 图像
+        pic(header, current);
         sleep(1);
-        i++;
-        if(i == 5)
-        {
-            i = 0;
-            show_Flag(i);      
-        }
         if(flag)
         {
             break;
@@ -254,10 +268,10 @@ void process4(int fd_bmp)
     }
 }
 
-void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current)
+void process5(int* STOP ,struct music* header, struct music** current)
 {
     int x, y;
-    fd_bmp = open("/Project/pic/music.bmp", O_RDONLY);
+    int fd_bmp = open("/Project/pic/music.bmp", O_RDONLY);
     bmp_process(fd_bmp);
     
     while(1)
@@ -266,6 +280,7 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
         if((x > 0) && (x <= 120) && (y > 0) && ( y<= 70))// 返回
         {
             music(5,header, current, STOP);
+            close(fd_bmp);
             break;
         }
         else if((x >= 140) && (x <= 250) && (y >= 310) && ( y<= 350))
@@ -308,7 +323,7 @@ void process5(int fd_bmp,int* STOP ,struct music* header, struct music** current
     }
 }
 
-void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
+void process6(bool* air)
 {
     //初始化
     int fd_kt = open("/Project/pic/kongtiao.bmp", O_RDONLY);
@@ -339,6 +354,7 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
     {
         if(flag == 1)
         {
+            close(fd_kt);
             break;
         }
         else if(flag == 2)
@@ -400,31 +416,11 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
                 }
                 else if(i == 1)
                 {
-                    if(*Sweeping_robot == false)
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("Open the Sweeping_robot\n");
-                        *Sweeping_robot = true;
-                    }
-                    else
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("The Sweeping_robot has opened\n");
-                    }
+                    printf("K%d is pressed\n", (i + 2));
                 }
                 else if(i == 2)
                 {
-                    if(*Sweeping_robot == true)
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("Close the Sweeping_robot\n");
-                        *Sweeping_robot = false;
-                    }
-                    else
-                    {
-                        printf("K%d is pressed\n", (i + 2));
-                        printf("The Sweeping_robot has closed\n");
-                    }
+                    printf("K%d is pressed\n", (i + 2));
                 }
             }
             else if((button_buf[i] == BUTTON_OFF) && (button_buf[i] != temp[i]))// 按下后释放
@@ -446,7 +442,7 @@ void process6(int fd_bmp, bool* Sweeping_robot, bool* air)
 
 void process7()
 {
-    // 看门猪测试
+    // 看门猪驱动测试
     // int count =0;
     // wd_start();
     // printf("start watch_dog end\n");
@@ -470,8 +466,24 @@ void process7()
     //     }
     // }
 
-    // 模拟程序卡死       
+    // 看门猪测试2 --- 模拟程序卡死       
     kill_myself();
+
+    //TODO Test
+    // printf("手写板模式 测试\n");
+    // show(White);
+    // while(1)
+    // {
+    //     int x, y;
+    //     int last_x, last_y;
+    //     while(1)
+    //     {
+    //         touch_print_px(&x,&y);
+    //         show_point(x, y, &last_x, &last_y);
+    //     }
+        
+    // }
+    
 }
 
 void kill_myself()

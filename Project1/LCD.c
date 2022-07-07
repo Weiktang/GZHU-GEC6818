@@ -35,24 +35,44 @@ void show_point(int x, int y,int *last_x,int *last_y)
 	}
 	lcd_buf = (int*)mmap(NULL, Buffer_Size*4, PROT_READ | PROT_WRITE, MAP_SHARED, fd_lcd, 0);
     
-
-	// time 15点14分 tang
+	printf("%d %d\n",x,y);
+	// version 2 斜画线
 	if( (*last_x) & (*last_y) != 0)
 	{
-		int distance = sqrt(pow((*last_y - y),2)+pow((*last_x) - x,2));
+		int distance = sqrt(pow((*last_y) - y,2)+pow((*last_x) - x,2));
 		double rate =  (y - *last_y) / (x - *last_x);
 		int point_address;
 		for(int i =0;i<distance;i++)
 		{
-			point_address =(*last_x + rate*i)+(*last_y+rate*i);
+			point_address =(*last_x + rate*i) + (*last_y+rate*i)*800;
 			*(lcd_buf + point_address) = Black; 
 			*(lcd_buf + x + y*800) = Black; 		
 		}
 	}
 	*last_x = x;
 	*last_y = y;
-
-	// *(lcd_buf + x + y*800) = Black; 
+	// version 1 垂直水平画线
+	// if( (*last_x) & (*last_y) != 0)
+	// {
+	// 	*(lcd_buf + x + y*800) = Black; 
+	// 	if(*last_y == y)
+	// 	{
+	// 		for(int i = *last_x;i<x;i++)
+	// 		{
+	// 			*(lcd_buf + i + y*800) = Black; 
+	// 		}
+	// 	}
+	// 	else if(*last_x == x)
+	// 	{
+	// 		for(int i = *last_y;i<y;i++)
+	// 		{
+	// 			*(lcd_buf + x + i*800) = Black; 
+	// 		}
+	// 	}
+		
+	// }
+	// *last_x = x;
+	// *last_y = y;
 	
 	munmap(lcd_buf,Buffer_Size*4);
     close(fd_lcd);
@@ -132,7 +152,7 @@ void bmp_process2(int LED_n, int statue)//	LED专用
 {
     int fd_lcd;
 	int fd_bmp;
-	int size = 84*108;
+	int size = 60*89;//84*108;
 	// printf("size is : %d\n",size);
     fd_lcd = open("/dev/fb0", O_RDWR); 
 	if(fd_lcd == -1)
@@ -185,12 +205,12 @@ void bmp_process2(int LED_n, int statue)//	LED专用
 		goto ERROR;
 	}
 
-	for(int i =0;i<108;i++) 
+	for(int i =0;i<89;i++) 
     {
-		for(int j=0;j<84;j++)
+		for(int j=0;j<60;j++)
 		{
-			*(fb_base+base_address+(107-i)*800+j) = (0x00 << 24)+(data_buff[3*(84*i+j)+2]<<16) +\
-                ( data_buff[3*(84*i+j)+1]<<8) + (data_buff[3*(84*i+j)]<<0);
+			*(fb_base+base_address+(88-i)*800+j) = (0x00 << 24)+(data_buff[3*(60*i+j)+2]<<16) +\
+                ( data_buff[3*(60*i+j)+1]<<8) + (data_buff[3*(60*i+j)]<<0);
 		}
     }
 
