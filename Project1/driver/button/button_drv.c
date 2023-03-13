@@ -4,8 +4,7 @@
 #include <linux/fs.h>
 #include <linux/uaccess.h>
 #include <linux/io.h>
-¡¢
-#i¡¿nclude <linux/ioport.h>
+#include <linux/ioport.h>
 #include <linux/device.h>
 
 #include "cfg_type.h"
